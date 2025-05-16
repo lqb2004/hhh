@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="UTF-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>我的个人账单</title>
+  
+  <link rel="stylesheet" href="styles.css">
+  
+  <script const Chart=require('chart.js')></script>
+  
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+   <header>
+      <h1>我的个人账单</h1>
+      <nav>
+         <ul>
+            <li><a href="#about">个人主页</a></li>
+            <li><a href="#skills">流水</a></li>
+            <li><a href="#projects">记一笔</a></li>
+           </ul>
+        </nav>
+     </header>
+
+   <section id="about">
+      <h2>我的个人账单</h2>
+      <div class="modules">
+         <div class="module">
+            <h3 id="balance">账户统计：<span id="balance-amount"></span> 元</h3>
+           </div>
+         <div class="module">
+            <h4>今天 <span id="today-stats" class="stats"></span></h4>
+            <h4>本周 <span id="week-stats" class="stats"></span></h4>
+            <h4>本月 <span id="month-stats" class="stats"></span></h4>
+            <h4>本年 <span id="year-stats" class="stats"></span></h4>
+           </div>
+
+         <div class="module">
+            <h3>本月分类支出</h3>
+            <canvas id="monthlyExpenseChart"></canvas>
+           </div>
+         <div class="module">
+            <h3>本月分类收入</h3>
+            <canvas id="monthlyIncomeChart"></canvas>
+           </div>
+         <div class="module">
+            <h3>本月支出分布</h3>
+            <canvas id="expenseDistributionChart"></canvas>
+           </div>
+        </div>
+     </section>
+
+
+   <section id="skills">
+      <h2>流水</h2>
+      <div class="search-filter-container">
+         <div class="search-box">
+            <input type="text" id="search-input" class="search-input" placeholder="请输入搜索内容">
+            <button id="search-btn" class="search-btn">搜索</button>
+           </div>
+        </div>
+      </div>
+      </div>
+      <div class="filter-section">
+         <!-- 第一行：分类筛选 -->
+         <div class="filter-row">
+            <select id="filter-type" class="filter-select">
+               <option value="">所有类型</option>
+               <option value="收入">收入</option>
+               <option value="支出">支出</option>
+              </select>
+         
+            <select id="filter-primary-category" class="filter-select">
+               <option value="">所有一级分类</option>
+              </select>
+         
+            <select id="filter-secondary-category" class="filter-select">
+               <option value="">所有二级分类</option>
+              </select>
+         
+            <select id="filter-account" class="filter-select">
+               <option value="">所有账户</option>
+               <option value="微信">微信</option>
+               <option value="支付宝">支付宝</option>
+               <option value="工资卡">工资卡</option>
+               <option value="其他">其他</option>
+              </select>
+           </div>
+       
+         <!-- 第二行：金额范围 -->
+         <div class="filter-row">
+            <input type="number" id="filter-min-amount" class="filter-input" placeholder="最小金额" step="0.01">
+            <input type="number" id="filter-max-amount" class="filter-input" placeholder="最大金额" step="0.01">
+           </div>
+       
+         <!-- 第三行：时间范围 -->
+         <div class="filter-row">
+            <input type="date" id="filter-start-date" class="filter-input">
+            <input type="date" id="filter-end-date" class="filter-input">
+           </div>
+       
+         <!-- 第四行：筛选按钮 -->
+         <div class="filter-row">
+            <button id="apply-filter-btn" class="filter-btn">筛选</button>
+            <button id="reset-filter-btn" class="filter-btn">重置</button>
+           </div>
+        </div>
+      </div>
+      <table id="recordTable">
+         <thead>
+            <tr>
+               <th>编辑</th>
+               <th>类型</th>
+               <th>金额</th>
+               <th>一级分类</th>
+               <th>二级分类</th>
+               <th>账户</th>
+               <th>时间</th>
+               <th>备注</th>
+               <th>删除</th>
+              </tr>
+           </thead>
+         <tbody id="recordTableBody">
+           
+           </tbody>
+        </table>
+     </section>
+
+
+
+
+   <section id="projects">
+      <h2>记一笔</h2>
+      <form id="recordForm">
+         <label for="type">类型：</label>
+         <select id="type" name="type" required>
+            <option value="">请选择</option>
+            <option value="收入">收入</option>
+            <option value="支出">支出</option>
+           </select>
+
+         <label for="amount">金额：</label>
+         <input type="number" id="amount" name="amount" step="0.01" required>
+
+         <label for="primaryCategory">一级分类：</label>
+         <select id="primaryCategory" name="primaryCategory" required>
+            <option value="">请选择</option>
+           </select>
+
+         <label for="secondaryCategory">二级分类：</label>
+         <select id="secondaryCategory" name="secondaryCategory" required>
+            <option value="">请选择</option>
+           </select>
+
+         <label for="date">时间：</label>
+         <input type="date" id="date" name="date" value="" required>
+
+         <label for="account">账户：</label>
+         <select id="account" name="account" required>
+            <option value="">请选择</option>
+            <option value="微信">微信</option>
+            <option value="支付宝">支付宝</option>
+            <option value="工资卡">工资卡</option>
+            <option value="其他">其他</option>
+           </select>
+
+         <label for="notes">备注：</label>
+         <input type="text" id="notes" name="notes">
+
+         <button type="submit">记一笔</button>
+        </form>
+      <div class="message" id="message"></div>
+     </section>
+
+  
+  <script src="/src/main.js"></script>
+</body>
+
+</html>
